@@ -35,17 +35,24 @@
             </button>
             <div class="nav-links">
                 @auth
-                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
-                    <a href="{{ route('student.rooms') }}" class="{{ request()->routeIs('student.rooms*') ? 'active' : '' }}">Rooms</a>
-                    <a href="{{ route('student.payments.index') }}" class="{{ request()->routeIs('student.payments*') ? 'active' : '' }}">Payments</a>
-                    {{-- <a href="{{ route('student.complaints.index') }}" class="{{ request()->routeIs('student.complaints*') ? 'active' : '' }}">Complaints</a> --}}
+                    @if(Auth::user()->role === 'student')
+                        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
+                        <a href="{{ route('student.rooms') }}" class="{{ request()->routeIs('student.rooms*') ? 'active' : '' }}">Rooms</a>
+                        <a href="{{ route('student.payments.index') }}" class="{{ request()->routeIs('student.payments*') ? 'active' : '' }}">Payments</a>
+                    @elseif(Auth::user()->role === 'staff')
+                        <a href="{{ route('staff.dashboard') }}" class="{{ request()->routeIs('staff.dashboard') ? 'active' : '' }}">Dashboard</a>
+                        <a href="{{ route('staff.complaints.index') }}" class="{{ request()->routeIs('staff.complaints*') ? 'active' : '' }}">Complaints</a>
+                        <a href="{{ route('staff.visitors.index') }}" class="{{ request()->routeIs('staff.visitors*') ? 'active' : '' }}">Visitors</a>
+                    @elseif(Auth::user()->role === 'admin')
+                        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
+                        <a href="{{ route('admin.bookings') }}" class="{{ request()->routeIs('admin.bookings*') ? 'active' : '' }}">Bookings</a>
+                        <a href="{{ route('admin.reports.index') }}" class="{{ request()->routeIs('admin.reports*') ? 'active' : '' }}">Reports</a>
+                    @endif
                     
                     <div class="dropdown" style="position: relative; display: inline-block;">
                         <a href="#" class="btn-primary" style="padding: 0.5rem 1.5rem; border-radius: 20px; display: flex; align-items: center; gap: 0.5rem;">
                             <i class="fas fa-user-circle"></i> {{ Auth::user()->name }}
                         </a>
-                        <!-- Simple Dropdown Content (CSS needed if not using JS, but for now inline or separate) -->
-                        <!-- For simplicity in this step, we'll just add a logout link next to it or make it a direct profile link for now -->
                     </div>
                     
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
