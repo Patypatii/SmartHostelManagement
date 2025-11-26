@@ -23,6 +23,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
 Route::get('/dashboard', function () {
     $user = Auth::user();
     
@@ -35,29 +43,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    // Student Routes
-    Route::get('/student/rooms', [StudentController::class, 'rooms'])->name('student.rooms');
-    Route::post('/student/book/{room}', [StudentController::class, 'book'])->name('student.book');
-    
-    // Payment Routes
-    Route::get('/student/payments', [PaymentController::class, 'index'])->name('student.payments.index');
-    Route::get('/student/pay/{booking}', [PaymentController::class, 'create'])->name('student.payments.create');
-    Route::post('/student/pay/{booking}', [PaymentController::class, 'store'])->name('student.payments.store');
-
-    // Admin Routes
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('/bookings', [AdminController::class, 'bookings'])->name('bookings');
-        Route::post('/bookings/{booking}/approve', [AdminController::class, 'approveBooking'])->name('bookings.approve');
-        Route::post('/bookings/{booking}/reject', [AdminController::class, 'rejectBooking'])->name('bookings.reject');
-
-        // Reports
-        Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-        Route::get('/reports/occupancy', [ReportController::class, 'occupancy'])->name('reports.occupancy');
-        Route::get('/reports/occupancy/export', [ReportController::class, 'exportOccupancy'])->name('reports.occupancy.export');
-        Route::get('/reports/revenue', [ReportController::class, 'revenue'])->name('reports.revenue');
-    });
-});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -65,4 +50,42 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+// Admin Routes
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('bookings');
+    Route::patch('/bookings/{id}', [App\Http\Controllers\BookingController::class, 'updateStatus'])->name('bookings.update');
+    
+    // Reports
+    Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/occupancy', [App\Http\Controllers\ReportController::class, 'occupancy'])->name('reports.occupancy');
+    Route::get('/reports/occupancy/export', [App\Http\Controllers\ReportController::class, 'exportOccupancy'])->name('reports.occupancy.export');
+    Route::get('/reports/revenue', [App\Http\Controllers\ReportController::class, 'revenue'])->name('reports.revenue');
+});
+
+// Student Routes
+Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {
+    Route::get('/rooms', [App\Http\Controllers\StudentController::class, 'rooms'])->name('rooms');
+    Route::post('/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
+    
+    // Payments
+    Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'index'])->name('payments.index');
+    Route::get('/payments/{booking}/pay', [App\Http\Controllers\PaymentController::class, 'create'])->name('payments.create');
+    Route::post('/payments/{booking}/pay', [App\Http\Controllers\PaymentController::class, 'store'])->name('payments.store');
+});
+
+// Staff Routes
+Route::middleware(['auth', 'role:staff'])->prefix('staff')->name('staff.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\StaffController::class, 'dashboard'])->name('dashboard');
+    
+    // Complaints
+    Route::get('/complaints', [App\Http\Controllers\StaffController::class, 'complaints'])->name('complaints.index');
+    Route::patch('/complaints/{id}', [App\Http\Controllers\StaffController::class, 'updateComplaint'])->name('complaints.update');
+    
+    // Visitors
+    Route::get('/visitors', [App\Http\Controllers\StaffController::class, 'visitors'])->name('visitors.index');
+    Route::patch('/visitors/{id}', [App\Http\Controllers\StaffController::class, 'updateVisitor'])->name('visitors.update');
+});
+
 require __DIR__.'/auth.php';
+

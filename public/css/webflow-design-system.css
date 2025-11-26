@@ -21,7 +21,7 @@
   --color-warning: #FFC107;
   --color-danger: #DC3545;
   --color-info: #17A2B8;
-  
+
   /* Spacing */
   --space-xs: 4px;
   --space-sm: 8px;
@@ -31,29 +31,29 @@
   --space-2xl: 48px;
   --space-3xl: 64px;
   --space-4xl: 96px;
-  
+
   /* Typography */
-  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family: "WF Visual Sans Variable", Arial, sans-serif;
   --font-size-xs: 14px;
   --font-size-sm: 16px;
   --font-size-base: 16px;
   --font-size-lg: 18.905px;
   --font-size-xl: 22.175px;
-  --font-size-2xl: 32px;
-  --font-size-3xl: 48px;
+  --font-size-2xl: 40px;
+  --font-size-3xl: 63.575px;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --line-height-tight: 1.1;
   --line-height-normal: 1.4;
   --line-height-relaxed: 1.6;
-  
+
   /* Border Radius */
   --border-radius-sm: 4px;
   --border-radius-md: 8px;
   --border-radius-lg: 12px;
   --border-radius-xl: 16px;
-  
+
   /* Shadows */
   --shadow-none: none;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -61,7 +61,7 @@
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
   --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.12);
   --shadow-button: 0 4px 12px rgba(20, 110, 245, 0.2);
-  
+
   /* Transitions */
   --transition-fast: 0.2s ease;
   --transition-base: 0.3s ease;
@@ -89,7 +89,12 @@ body {
 /* ============================================
    Typography
    ============================================ */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--color-black);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
@@ -408,6 +413,13 @@ select.form-control {
   border-right: 1px solid var(--color-border);
   padding: var(--space-lg);
   overflow-y: auto;
+  transform: translateX(-100%);
+  z-index: 999;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.active {
+  transform: translateX(0);
 }
 
 .sidebar-nav {
@@ -561,19 +573,53 @@ select.form-control {
   text-align: right;
 }
 
-.mb-0 { margin-bottom: 0; }
-.mb-1 { margin-bottom: var(--space-xs); }
-.mb-2 { margin-bottom: var(--space-sm); }
-.mb-3 { margin-bottom: var(--space-md); }
-.mb-4 { margin-bottom: var(--space-lg); }
-.mb-5 { margin-bottom: var(--space-xl); }
+.mb-0 {
+  margin-bottom: 0;
+}
 
-.mt-0 { margin-top: 0; }
-.mt-1 { margin-top: var(--space-xs); }
-.mt-2 { margin-top: var(--space-sm); }
-.mt-3 { margin-top: var(--space-md); }
-.mt-4 { margin-top: var(--space-lg); }
-.mt-5 { margin-top: var(--space-xl); }
+.mb-1 {
+  margin-bottom: var(--space-xs);
+}
+
+.mb-2 {
+  margin-bottom: var(--space-sm);
+}
+
+.mb-3 {
+  margin-bottom: var(--space-md);
+}
+
+.mb-4 {
+  margin-bottom: var(--space-lg);
+}
+
+.mb-5 {
+  margin-bottom: var(--space-xl);
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.mt-1 {
+  margin-top: var(--space-xs);
+}
+
+.mt-2 {
+  margin-top: var(--space-sm);
+}
+
+.mt-3 {
+  margin-top: var(--space-md);
+}
+
+.mt-4 {
+  margin-top: var(--space-lg);
+}
+
+.mt-5 {
+  margin-top: var(--space-xl);
+}
 
 .d-flex {
   display: flex;
@@ -619,25 +665,29 @@ select.form-control {
   .navbar-container {
     padding: var(--space-md);
   }
-  
+
   .sidebar {
     transform: translateX(-100%);
   }
-  
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
   .main-content {
     margin-left: 0;
   }
-  
+
   .grid-2,
   .grid-3,
   .grid-4 {
     grid-template-columns: 1fr;
   }
-  
+
   h1 {
     font-size: var(--font-size-2xl);
   }
-  
+
   .container {
     padding: 0 var(--space-md);
   }

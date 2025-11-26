@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+use Illuminate\Support\Facades\Log;
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -30,33 +32,37 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone' => ['required', 'string', 'max:20'],
-            'student_id' => ['required', 'string', 'max:20', 'unique:'.User::class],
-            'gender' => ['required', 'string', 'in:male,female'],
-            'course' => ['required', 'string', 'max:255'],
-            'year_of_study' => ['required', 'integer', 'min:1', 'max:6'],
-        ]);
+        Log::info('Registration attempt', ['email' => $request->email, 'ip' => $request->ip()]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'student',
-            'phone' => $request->phone,
-            'student_id' => $request->student_id,
-            'gender' => $request->gender,
-            'course' => $request->course,
-            'year_of_study' => $request->year_of_study,
-        ]);
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'role' => ['required', 'string', 'in:student,staff'], // Added validation for role
+            ]);
 
-        event(new Registered($user));
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $request->role, // Use selected role
+            ]);
 
-        Auth::login($user);
+            Log::info('User registered successfully', ['user_id' => $user->id, 'role' => $user->role]);
 
-        return redirect(RouteServiceProvider::HOME);
+            event(new Registered($user));
+
+            Auth::login($user);
+
+            return redirect(RouteServiceProvider::HOME)->with('success', 'Registration successful! Welcome to Smart Hostel.');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::warning('Registration validation failed', ['errors' => $e->errors()]);
+            throw $e;
+        } catch (\Exception $e) {
+            Log::error('Registration error', ['error' => $e->getMessage()]);
+            return back()->with('error', 'An unexpected error occurred during registration.');
+        }
     }
 }

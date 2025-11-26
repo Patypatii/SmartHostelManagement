@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+use Illuminate\Support\Facades\Log;
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -25,11 +27,30 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        Log::info('Login attempt', ['email' => $request->email, 'ip' => $request->ip()]);
 
-        $request->session()->regenerate();
+        try {
+            $request->authenticate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+            $request->session()->regenerate();
+
+            Log::info('Login successful', ['user_id' => $request->user()->id, 'role' => $request->user()->role]);
+
+            if ($request->user()->role === 'admin') {
+                return redirect()->intended(RouteServiceProvider::HOME)->with('success', 'Welcome back, Admin!');
+            } elseif ($request->user()->role === 'staff') {
+                return redirect()->route('staff.dashboard')->with('success', 'Welcome back, Staff!');
+            }
+
+            return redirect()->intended(RouteServiceProvider::HOME)->with('success', 'Welcome back!');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::warning('Login failed: Invalid credentials', ['email' => $request->email]);
+            throw $e;
+        } catch (\Exception $e) {
+            Log::error('Login error', ['error' => $e->getMessage()]);
+            return back()->with('error', 'An unexpected error occurred during login.');
+        }
     }
 
     /**
