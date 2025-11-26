@@ -9,11 +9,23 @@
             <p class="text-muted">Welcome back, {{ Auth::user()->name }}!</p>
         </div>
         <div class="d-flex gap-2">
-            <button class="btn btn-primary">
+            <a href="{{ route('student.rooms') }}" class="btn btn-primary">
                 <i class="fas fa-plus"></i> New Booking
-            </button>
+            </a>
         </div>
     </div>
+
+    @if(session('status'))
+        <div class="alert alert-success mb-4">
+            {{ session('status') }}
+        </div>
+    @endif
+    
+    @if(session('error'))
+        <div class="alert alert-danger mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <!-- Statistics Cards -->
     <div class="grid grid-3 mb-5">
@@ -48,15 +60,21 @@
         <div class="card">
             <h3 class="card-title">Quick Actions</h3>
             <div class="d-flex gap-2 flex-wrap">
-                <button class="btn btn-primary w-100 mb-2">
-                    <i class="fas fa-credit-card"></i> Make Payment
-                </button>
+                @if($activeBooking && $activeBooking->status === 'approved')
+                    <a href="{{ route('student.payments.create', $activeBooking) }}" class="btn btn-primary w-100 mb-2">
+                        <i class="fas fa-credit-card"></i> Make Payment
+                    </a>
+                @else
+                    <button class="btn btn-primary w-100 mb-2" disabled>
+                        <i class="fas fa-credit-card"></i> Make Payment
+                    </button>
+                @endif
                 <button class="btn btn-outline w-100 mb-2">
                     <i class="fas fa-exclamation-triangle"></i> Report Issue
                 </button>
-                <button class="btn btn-outline w-100">
-                    <i class="fas fa-user-plus"></i> Register Visitor
-                </button>
+                <a href="{{ route('student.payments.index') }}" class="btn btn-outline w-100">
+                    <i class="fas fa-history"></i> Payment History
+                </a>
             </div>
         </div>
     </div>
