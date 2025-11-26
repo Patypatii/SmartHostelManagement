@@ -21,7 +21,7 @@ class BookingController extends Controller
         ]);
     }
 
-    // Student: Create a booking
+    // Student: Create a booking with payment
     public function store(Request $request)
     {
         Log::info('Booking attempt started', ['user_id' => Auth::id(), 'room_id' => $request->room_id]);
@@ -29,12 +29,13 @@ class BookingController extends Controller
         try {
             $request->validate([
                 'room_id' => 'required|exists:rooms,id',
+                'payment_method' => 'required|in:mpesa,paypal',
+                'phone_number' => 'required_if:payment_method,mpesa',
             ]);
 
             // Check if room is available
             $room = Room::findOrFail($request->room_id);
             if ($room->status !== 'available') {
-                Log::warning('Booking failed: Room unavailable', ['room_id' => $request->room_id]);
                 return back()->with('error', 'Room is not available.');
             }
 
@@ -44,11 +45,26 @@ class BookingController extends Controller
                 'room_id' => $request->room_id,
                 'status' => 'pending',
                 'booking_reference' => 'BK-' . strtoupper(uniqid()),
+                'total_amount' => $room->price_per_semester,
             ]);
 
-            Log::info('Booking created successfully', ['booking_id' => $booking->id]);
+            // Process Payment (Simulated)
+            $transactionId = 'TXN-' . strtoupper(\Illuminate\Support\Str::random(12));
+            
+            $payment = \App\Models\Payment::create([
+                'booking_id' => $booking->id,
+                'user_id' => Auth::id(),
+                'transaction_reference' => $transactionId,
+                'amount' => $room->price_per_semester,
+                'payment_method' => $request->payment_method,
+                'phone_number' => $request->phone_number,
+                'status' => 'completed',
+                'paid_at' => now(),
+            ]);
 
-            return redirect()->route('dashboard')->with('success', 'Booking request submitted successfully.');
+            Log::info('Booking and Payment created successfully', ['booking_id' => $booking->id, 'payment_id' => $payment->id]);
+
+            return redirect()->route('dashboard')->with('success', 'Booking and payment processed successfully! Ref: ' . $transactionId);
 
         } catch (\Exception $e) {
             Log::error('Booking creation failed', ['error' => $e->getMessage()]);

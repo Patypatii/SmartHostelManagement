@@ -11,6 +11,12 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('css/webflow-design-system.css') }}">
@@ -20,27 +26,45 @@
 
     <!-- Navbar -->
     <nav class="navbar @yield('navbar-class')">
-        <a href="{{ url('/') }}" class="logo">
-            <i class="fas fa-building"></i> SmartHostel
-        </a>
-        <button class="mobile-menu-toggle" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="nav-links">
-            <a href="{{ url('/') }}">Home</a>
-            <a href="{{ route('about') }}">About Us</a>
-            <a href="{{ url('/#rooms') }}">Rooms</a>
-            <a href="{{ route('contact') }}">Contact</a>
-            @if (Route::has('login'))
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; height: 100%;">
+            <a href="{{ url('/') }}" class="logo">
+                <i class="fas fa-building"></i> SmartHostel
+            </a>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links">
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="btn-primary" style="padding: 0.5rem 1.5rem; border-radius: 20px;">Dashboard</a>
+                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
+                    <a href="{{ route('student.rooms') }}" class="{{ request()->routeIs('student.rooms*') ? 'active' : '' }}">Rooms</a>
+                    <a href="{{ route('student.payments.index') }}" class="{{ request()->routeIs('student.payments*') ? 'active' : '' }}">Payments</a>
+                    {{-- <a href="{{ route('student.complaints.index') }}" class="{{ request()->routeIs('student.complaints*') ? 'active' : '' }}">Complaints</a> --}}
+                    
+                    <div class="dropdown" style="position: relative; display: inline-block;">
+                        <a href="#" class="btn-primary" style="padding: 0.5rem 1.5rem; border-radius: 20px; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-user-circle"></i> {{ Auth::user()->name }}
+                        </a>
+                        <!-- Simple Dropdown Content (CSS needed if not using JS, but for now inline or separate) -->
+                        <!-- For simplicity in this step, we'll just add a logout link next to it or make it a direct profile link for now -->
+                    </div>
+                    
+                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn-secondary" style="border: none; background: none; color: white; cursor: pointer; font-weight: 500;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
                 @else
+                    <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
+                    <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About Us</a>
+                    <a href="{{ url('/#rooms') }}">Rooms</a>
+                    <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
                     <a href="{{ route('login') }}">Log in</a>
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}" style="background: rgba(255,255,255,0.2); padding: 0.5rem 1.5rem; border-radius: 20px;">Register</a>
                     @endif
                 @endauth
-            @endif
+            </div>
         </div>
     </nav>
 
@@ -135,6 +159,21 @@
     
     <!-- Toastify JS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+    </script>
 
     <script>
         @if(session('success'))

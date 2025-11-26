@@ -30,7 +30,10 @@ class StudentController extends Controller
             $pendingDues = $activeBooking->total_amount - $paidAmount;
         }
 
-        return view('student.dashboard', compact('activeBooking', 'pendingDues'));
+        // Get Recent Payments
+        $recentPayments = $user->payments()->latest()->take(5)->get();
+
+        return view('student.dashboard', compact('activeBooking', 'pendingDues', 'recentPayments'));
     }
 
     public function rooms()
@@ -42,6 +45,12 @@ class StudentController extends Controller
             ->get();
 
         return view('student.rooms', compact('rooms'));
+    }
+
+    public function show($id)
+    {
+        $room = Room::with('block')->findOrFail($id);
+        return view('student.rooms.show', compact('room'));
     }
 
     public function book(Request $request, Room $room)

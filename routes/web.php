@@ -66,6 +66,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // Student Routes
 Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {
     Route::get('/rooms', [App\Http\Controllers\StudentController::class, 'rooms'])->name('rooms');
+    Route::get('/rooms/{id}', [App\Http\Controllers\StudentController::class, 'show'])->name('rooms.show');
     Route::post('/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
     
     // Payments

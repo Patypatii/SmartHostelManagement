@@ -1,15 +1,6 @@
-/**
- * Webflow Design System - Smart Hostel Management System
- * Based on extracted Webflow.com design patterns
- */
-
-/* ============================================
-   CSS Variables (Design Tokens)
-   ============================================ */
 :root {
-  /* Colors */
   --color-primary: #146EF5;
-  --color-primary-dark: #0056CC;
+  --color-primary-dark: #005BC4;
   --color-primary-darker: #004BB5;
   --color-black: #080808;
   --color-white: #FFFFFF;
@@ -366,7 +357,7 @@ select.form-control {
 }
 
 .navbar-container {
-  max-width: 1280px;
+  max-width: 1140px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -553,142 +544,135 @@ select.form-control {
    Utility Classes
    ============================================ */
 .container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 var(--space-2xl);
-}
+  max-width: 1140px;
 
-.main-content {
-  margin-left: 250px;
-  margin-top: 72px;
-  padding: var(--space-2xl);
-  min-height: calc(100vh - 72px);
-}
+  .text-right {
+    text-align: right;
+  }
 
-.text-center {
-  text-align: center;
-}
+  .mb-0 {
+    margin-bottom: 0;
+  }
 
-.text-right {
-  text-align: right;
-}
+  .mb-1 {
+    margin-bottom: var(--space-xs);
+  }
 
-.mb-0 {
-  margin-bottom: 0;
-}
+  .mb-2 {
+    margin-bottom: var(--space-sm);
+  }
 
-.mb-1 {
-  margin-bottom: var(--space-xs);
-}
+  .mb-3 {
+    margin-bottom: var(--space-md);
+  }
 
-.mb-2 {
-  margin-bottom: var(--space-sm);
-}
+  .mb-4 {
+    margin-bottom: var(--space-lg);
+  }
 
-.mb-3 {
-  margin-bottom: var(--space-md);
-}
+  .mb-5 {
+    margin-bottom: var(--space-xl);
+  }
 
-.mb-4 {
-  margin-bottom: var(--space-lg);
-}
+  .mt-0 {
+    margin-top: 0;
+  }
 
-.mb-5 {
-  margin-bottom: var(--space-xl);
-}
+  .mt-1 {
+    margin-top: var(--space-xs);
+  }
 
-.mt-0 {
-  margin-top: 0;
-}
+  .mt-2 {
+    margin-top: var(--space-sm);
+  }
 
-.mt-1 {
-  margin-top: var(--space-xs);
-}
+  .mt-3 {
+    margin-top: var(--space-md);
+  }
 
-.mt-2 {
-  margin-top: var(--space-sm);
-}
+  .mt-4 {
+    margin-top: var(--space-lg);
+  }
 
-.mt-3 {
-  margin-top: var(--space-md);
-}
+  .mt-5 {
+    margin-top: var(--space-xl);
+  }
 
-.mt-4 {
-  margin-top: var(--space-lg);
-}
+  .d-flex {
+    display: flex;
+  }
 
-.mt-5 {
-  margin-top: var(--space-xl);
-}
+  .align-items-center {
+    align-items: center;
+  }
 
-.d-flex {
-  display: flex;
-}
+  .justify-content-between {
+    justify-content: space-between;
+  }
 
-.align-items-center {
-  align-items: center;
-}
+  .gap-2 {
+    gap: var(--space-sm);
+  }
 
-.justify-content-between {
-  justify-content: space-between;
-}
+  .gap-3 {
+    gap: var(--space-md);
+  }
 
-.gap-2 {
-  gap: var(--space-sm);
-}
+  .grid {
+    display: grid;
+    gap: var(--space-lg);
+  }
 
-.gap-3 {
-  gap: var(--space-md);
-}
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-.grid {
-  display: grid;
-  gap: var(--space-lg);
-}
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-.grid-2 {
-  grid-template-columns: repeat(2, 1fr);
-}
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
 
-.grid-3 {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.grid-4 {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-/* ============================================
+  /* ============================================
    Responsive
    ============================================ */
-@media (max-width: 768px) {
-  .navbar-container {
-    padding: var(--space-md);
+  @media (max-width: 768px) {
+    .navbar-container {
+      padding: var(--space-md);
+    }
+
+    .sidebar {
+      transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+      transform: translateX(0);
+    }
+
+    .main-content {
+      margin-left: 0;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      font-size: var(--font-size-2xl);
+    }
+
+    .container {
+      padding: 0 var(--space-md);
+    }
   }
 
-  .sidebar {
-    transform: translateX(-100%);
+  @media (min-width: 769px) {
+    .sidebar {
+      transform: translateX(0);
+      /* Always show on desktop */
+    }
   }
-
-  .sidebar.active {
-    transform: translateX(0);
-  }
-
-  .main-content {
-    margin-left: 0;
-  }
-
-  .grid-2,
-  .grid-3,
-  .grid-4 {
-    grid-template-columns: 1fr;
-  }
-
-  h1 {
-    font-size: var(--font-size-2xl);
-  }
-
-  .container {
-    padding: 0 var(--space-md);
-  }
-}
