@@ -1,66 +1,198 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+#📘 Smart Hostel Management System — README
+##🏡 Project Overview
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The Smart Hostel Management System is a web-based platform built using Laravel PHP that simplifies the process of finding, booking, managing, and paying for hostel rooms.
+The system provides an end-to-end digital experience for students while offering powerful management tools for administrators and staff.
 
-## About Laravel
+The project supports multiple user roles — Admin, Student, and Staff — each with specific privileges and dashboards tailored to their needs.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project was developed as a group assignment for Advanced Database / Web Application Development, emphasizing real-world system analysis, authentication, access control, and database-driven workflows.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+##🎯 Project Objectives
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Digitize hostel and room management using an online platform.
 
-## Learning Laravel
+Provide students with an easy way to search, view, book, and pay for rooms.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Allow administrators to manage rooms, hostels, payments, and users efficiently.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Ensure secure authentication, authorization, and role-based access control.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Promote transparency, reduce paperwork, and increase accessibility.
 
-## Laravel Sponsors
+###👥 User Roles & Features
+**👨‍🎓 1. Student**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Students are the primary users of the system.
+Key features for students:
 
-### Premium Partners
+Register and log in securely
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+View available hostels and room types
 
-## Contributing
+Search and filter rooms by price, location, or availability
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Book a room and receive booking confirmations
 
-## Code of Conduct
+Make online/offline payments
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+View booking history and payment status
 
-## Security Vulnerabilities
+Update personal profile information
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**🧑‍💼 2. Staff**
 
-## License
+Staff members assist with hostel operations.
+Roles & responsibilities include:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Approve or decline booking requests
+
+Verify payment transactions
+
+Manage room availability
+
+Handle student inquiries
+
+Update hostel information
+
+**👨‍💻 3. Admin**
+
+Admins have full system control.
+Admin capabilities:
+
+Manage user accounts (students + staff)
+
+Add, update, or delete hostels and rooms
+
+Set room prices, capacity, and availability
+
+View system data and activity logs
+
+Generate reports (bookings, payments, occupancy)
+
+Manage system settings & roles
+
+##🏛️ System Features Summary
+✔ User Authentication & Authorization
+
+Laravel Breeze / Jetstream / Auth scaffolding
+
+Role-based access control (RBAC)
+
+✔ Hostel & Room Management
+
+Create/update hostels
+
+Define room types & prices
+
+Track availability
+
+Room capacity management
+
+✔ Booking System
+
+Real-time availability
+
+Booking requests and approvals
+
+Cancellation functions
+
+✔ Payment Handling
+
+Support for online payment integration (Mpesa, PayPal, etc. — optional)
+
+Manual/verified payment entries
+
+Invoice & receipt generation
+
+✔ Notification System
+
+Email notifications (confirmation, approval)
+
+Dashboard alerts
+
+✔ Reporting & Analytics
+
+Booking trends
+
+Occupancy rates
+
+Payment summaries
+
+##🏗️ Technology Stack
+Category	Tools
+Framework	Laravel PHP
+Languages	PHP, HTML, CSS, JavaScript
+Database	MySQL / MariaDB
+UI	Blade Templates / Bootstrap / Tailwind
+Authentication	Laravel Auth / Sanctum
+Version Control	Git & GitHub
+
+##⚙️ Installation & Setup
+
+Clone the repository:
+
+git clone https://github.com/your-repo/smart-hostel.git
+cd smart-hostel
+
+
+Install dependencies:
+
+composer install
+npm install && npm run dev
+
+
+Create the environment file:
+
+cp .env.example .env
+
+
+Configure database settings in .env.
+
+Run migrations:
+
+php artisan migrate
+
+
+Start the local development server:
+
+php artisan serve
+
+##🧪 Testing the System
+
+Use seeded default accounts if provided
+
+Test booking workflow
+
+Test role-based access restrictions
+
+Test payment procedures
+
+##🛡️ Security Considerations
+
+CSRF protection enabled by Laravel
+
+Password hashing
+
+Validation on all forms
+
+Restricted routes based on user role
+
+##📄 Team Members
+
+Include your group members here:
+
+Member 1 – Registration Number, Name
+
+Member 2 – Registration Number, Name
+
+Member 3 – Registration Number, Name
+
+Member 4 – Registration Number, Name
+
+(If you want, I can format this as a professional group list.)
+
+## 🏁 Conclusion
+
+The Smart Hostel Management System offers a modern, efficient solution for managing hostel allocations and student accommodation.
+It reduces administrative workload, enhances student experience, and ensures secure and scalable hostel operations.
