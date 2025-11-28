@@ -1,5 +1,6 @@
-#📘 Smart Hostel Management System — README
-##🏡 Project Overview
+# 📘 Smart Hostel Management System — README
+---
+## 🏡 Project Overview
 
 The Smart Hostel Management System is a web-based platform built using Laravel PHP that simplifies the process of finding, booking, managing, and paying for hostel rooms.
 The system provides an end-to-end digital experience for students while offering powerful management tools for administrators and staff.
@@ -8,7 +9,7 @@ The project supports multiple user roles — Admin, Student, and Staff — each 
 
 This project was developed as a group assignment for Advanced Database / Web Application Development, emphasizing real-world system analysis, authentication, access control, and database-driven workflows.
 
-##🎯 Project Objectives
+## 🎯 Project Objectives
 
 Digitize hostel and room management using an online platform.
 
@@ -20,7 +21,7 @@ Ensure secure authentication, authorization, and role-based access control.
 
 Promote transparency, reduce paperwork, and increase accessibility.
 
-###👥 User Roles & Features
+### 👥 User Roles & Features
 **👨‍🎓 1. Student**
 
 Students are the primary users of the system.
@@ -71,8 +72,9 @@ View system data and activity logs
 Generate reports (bookings, payments, occupancy)
 
 Manage system settings & roles
+---
 
-##🏛️ System Features Summary
+## 🏛️ System Features Summary
 ✔ User Authentication & Authorization
 
 Laravel Breeze / Jetstream / Auth scaffolding
@@ -119,7 +121,9 @@ Occupancy rates
 
 Payment summaries
 
-##🏗️ Technology Stack
+---
+
+## 🏗️ Technology Stack
 Category	Tools
 Framework	Laravel PHP
 Languages	PHP, HTML, CSS, JavaScript
@@ -128,11 +132,13 @@ UI	Blade Templates / Bootstrap / Tailwind
 Authentication	Laravel Auth / Sanctum
 Version Control	Git & GitHub
 
-##⚙️ Installation & Setup
+---
+
+### ⚙️ Installation & Setup
 
 Clone the repository:
 
-git clone https://github.com/your-repo/smart-hostel.git
+git clone https://github.com/patypattii/smart-hostel.git
 cd smart-hostel
 
 
@@ -157,8 +163,9 @@ php artisan migrate
 Start the local development server:
 
 php artisan serve
+---
 
-##🧪 Testing the System
+## 🧪 Testing the System
 
 Use seeded default accounts if provided
 
@@ -167,8 +174,9 @@ Test booking workflow
 Test role-based access restrictions
 
 Test payment procedures
+---
 
-##🛡️ Security Considerations
+## 🛡️ Security Considerations
 
 CSRF protection enabled by Laravel
 
@@ -177,8 +185,9 @@ Password hashing
 Validation on all forms
 
 Restricted routes based on user role
+---
 
-##📄 Team Members
+## 📄 Team Members
 
 Include your group members here:
 
