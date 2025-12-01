@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="{{ asset('css/webflow-design-system.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/frontend.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/webflow-design-system.css') }}?v={{ filemtime(public_path('css/webflow-design-system.css')) }}">
+    <link rel="stylesheet" href="{{ asset('css/frontend.css') }}?v={{ filemtime(public_path('css/frontend.css')) }}">
 </head>
 <body>
 
