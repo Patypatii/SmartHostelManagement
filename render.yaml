@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: smart-hostel-management
+    env: php
+    region: oregon
+    plan: free
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+      php artisan storage:link || true
+      npm ci
+      npm run build
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: error
+      - key: APP_URL
+        fromService:
+          type: web
+          name: smart-hostel-management
+          property: url
+
