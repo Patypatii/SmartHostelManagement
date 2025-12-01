@@ -37,9 +37,9 @@ USER www-data
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN npm ci && npm run build
 
-# Expose port 8000
-EXPOSE 8000
+# Expose port (Render will set PORT env var)
+EXPOSE $PORT
 
 # Start PHP development server
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan serve --host=0.0.0.0 --port=$PORT
 
