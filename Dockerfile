@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.1-cli
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -7,13 +7,13 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libpq-dev \
     zip \
     unzip \
     nodejs \
-    npm
-
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+    npm \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
@@ -24,22 +24,34 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy existing application directory contents
-COPY . /var/www
+# Copy composer files first for better caching
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
-# Copy existing application directory permissions
-RUN chown -R www-data:www-data /var/www
+# Copy package files for npm
+COPY package.json package-lock.json ./
+RUN npm ci
 
-# Change current user to www-data
-USER www-data
+# Copy application files
+COPY . .
 
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-RUN npm ci && npm run build
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 755 /var/www/storage \
+    && chmod -R 755 /var/www/bootstrap/cache
 
-# Expose port (Render will set PORT env var)
-EXPOSE $PORT
+# Build assets
+RUN npm run build
 
-# Start PHP development server
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+# Run composer scripts
+RUN composer dump-autoload --optimize
+
+# Create storage link
+RUN php artisan storage:link || true
+
+# Expose port (Render uses dynamic ports)
+EXPOSE 10000
+
+# Start PHP development server (Render sets PORT env var)
+CMD sh -c "php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"
 
