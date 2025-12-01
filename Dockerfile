@@ -43,8 +43,13 @@ RUN chown -R www-data:www-data /var/www \
 # Build assets
 RUN npm run build
 
-# Run composer scripts
+# Run composer scripts (after copying all files)
 RUN composer dump-autoload --optimize
+
+# Clear and cache config
+RUN php artisan config:clear || true
+RUN php artisan route:clear || true
+RUN php artisan view:clear || true
 
 # Create storage link
 RUN php artisan storage:link || true
@@ -53,5 +58,6 @@ RUN php artisan storage:link || true
 EXPOSE 10000
 
 # Start PHP development server (Render sets PORT env var)
+# Note: php artisan serve automatically serves from public/ directory
 CMD sh -c "php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"
 
